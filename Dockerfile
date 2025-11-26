@@ -1,12 +1,12 @@
-# Use OpenJDK to run the app
-FROM openjdk:11-jre-slim
+# Use a lightweight Java image
+FROM openjdk:17-jdk-slim
 
-# Set working directory
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy the JAR file built by Jenkins/Maven into the image
-# Note: The jar name 'calculator-app-jar-with-dependencies.jar' comes from the pom.xml config
-COPY target/calculator-app-jar-with-dependencies.jar app.jar
+# Copy the JAR file built by the "mvn package" stage in Jenkins
+# This specific name comes from your Jenkins logs
+COPY target/calculator-cli-1.0.0-jar-with-dependencies.jar app.jar
 
-# Command to run the application
+# Run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
