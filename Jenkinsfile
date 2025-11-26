@@ -8,7 +8,7 @@ pipeline {
 
     environment {
         DOCKER_HUB_USER = 'harjotsingh12312'  // Replace with your DockerHub Username
-        ROLL_NUMBER = 'IMT2023064' // Replace with your Roll No
+        ROLL_NUMBER = 'imt2023064' // Replace with your Roll No
         DOCKER_CREDS = credentials('docker-hub-credentials') 
         IMAGE_NAME = "${DOCKER_HUB_USER}/${ROLL_NUMBER}"
     }
