@@ -1,12 +1,9 @@
-# Use a lightweight Java image
-FROM openjdk:17-jdk-slim
+# Use Eclipse Temurin (Standard OpenJDK replacement)
+FROM eclipse-temurin:17-jdk-alpine
 
-# Set the working directory inside the container
 WORKDIR /app
 
-# Copy the JAR file built by the "mvn package" stage in Jenkins
-# This specific name comes from your Jenkins logs
-COPY target/calculator-cli-1.0.0-jar-with-dependencies.jar app.jar
+# The log confirms your file is named 'calculator-app-jar-with-dependencies.jar'
+COPY target/calculator-app-jar-with-dependencies.jar app.jar
 
-# Run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
