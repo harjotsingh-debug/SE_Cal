@@ -7,8 +7,8 @@ pipeline {
     }
 
     environment {
-        DOCKER_HUB_USER = 'harjotsingh12312'  // Replace with your User
-        ROLL_NUMBER = 'IMT2023064' // Replace with your Roll No
+        DOCKER_HUB_USER = 'harjotsingh'  // Replace with your DockerHub Username
+        ROLL_NUMBER = 'YOUR_ROLL_NUMBER' // Replace with your Roll No
         DOCKER_CREDS = credentials('docker-hub-credentials') 
         IMAGE_NAME = "${DOCKER_HUB_USER}/${ROLL_NUMBER}"
     }
@@ -22,22 +22,22 @@ pipeline {
 
         stage('Build Code') {
             steps {
-                // Compiles the Java code using Maven
-                bat 'mvn clean compile'
+                // CHANGED: used 'sh' instead of 'bat'
+                sh 'mvn clean compile'
             }
         }
 
         stage('Test Code') {
             steps {
-                // Runs the JUnit tests
-                bat 'mvn test'
+                // CHANGED: used 'sh' instead of 'bat'
+                sh 'mvn test'
             }
         }
 
         stage('Package Jar') {
              steps {
-                 // Creates the Executable Jar file required for the Docker image
-                 bat 'mvn package -DskipTests'
+                 // CHANGED: used 'sh' instead of 'bat'
+                 sh 'mvn package -DskipTests'
              }
         }
 
@@ -45,8 +45,8 @@ pipeline {
             steps {
                 script {
                     echo 'Building Docker Image...'
-                    // We need the JAR file to exist before this runs
-                    bat "docker build -t %IMAGE_NAME%:latest ."
+                    // CHANGED: used 'sh' instead of 'bat'
+                    sh "docker build -t $IMAGE_NAME:latest ."
                 }
             }
         }
@@ -55,8 +55,10 @@ pipeline {
             steps {
                 script {
                     echo 'Pushing to Docker Hub...'
-                    bat "echo %DOCKER_CREDS_PSW% | docker login -u %DOCKER_CREDS_USR% --password-stdin"
-                    bat "docker push %IMAGE_NAME%:latest"
+                    // CHANGED: used 'sh' instead of 'bat'
+                    // Note: Linux uses $VAR for variables, not %VAR%
+                    sh "echo $DOCKER_CREDS_PSW | docker login -u $DOCKER_CREDS_USR --password-stdin"
+                    sh "docker push $IMAGE_NAME:latest"
                 }
             }
         }
