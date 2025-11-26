@@ -16,7 +16,7 @@ pipeline {
     stages {
         stage('Pull Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/harjotsingh-debug/calculator-cli.git'
+                git branch: 'main', url: 'https://github.com/harjotsingh-debug/SE_Cal.git'
             }
         }
 
